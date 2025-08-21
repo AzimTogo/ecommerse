@@ -23,44 +23,71 @@ const Register = () => {
   console.log("bot user: ", botUsername);
   console.log("botId", botId);
   // Telegram widget'ni dinamik yuklash
-  useEffect(() => {
-    if (window.Telegram && window.Telegram.Login) {
-      return;
-    }
+  // useEffect(() => {
+  //   if (window.Telegram && window.Telegram.Login) {
+  //     return;
+  //   }
 
-    const script = document.createElement("script");
-    <script
-      async
-      src="https://telegram.org/js/telegram-widget.js?22"
-      data-telegram-login="samplebot"
-      data-size="large"
-      data-auth-url="https://ecommersedis.onrender.com/register"
-      data-request-access="write"
-    ></script>;
+  //   const script = document.createElement("script");
+  //   <script
+  //     async
+  //     src="https://telegram.org/js/telegram-widget.js?22"
+  //     data-telegram-login="samplebot"
+  //     data-size="large"
+  //     data-auth-url="https://ecommersedis.onrender.com/register"
+  //     data-request-access="write"
+  //   ></script>;
 
-    script.onload = () => {
-      console.log("Telegram widget loaded");
-    };
+  //   script.onload = () => {
+  //     console.log("Telegram widget loaded");
+  //   };
 
-    document.head.appendChild(script);
+  //   document.head.appendChild(script);
 
-    window.onTelegramAuth = (user) => {
-      console.log("Telegram user data:", user);
-      handleTelegramAuthSuccess(user);
-    };
+  //   window.onTelegramAuth = (user) => {
+  //     console.log("Telegram user data:", user);
+  //     handleTelegramAuthSuccess(user);
+  //   };
 
-    return () => {
-      const existingScript = document.querySelector(
-        'script[src*="telegram-widget"]'
-      );
-      if (existingScript) {
-        existingScript.remove();
-      }
-      if (window.onTelegramAuth) {
-        delete window.onTelegramAuth;
-      }
-    };
-  }, []);
+  //   return () => {
+  //     const existingScript = document.querySelector(
+  //       'script[src*="telegram-widget"]'
+  //     );
+  //     if (existingScript) {
+  //       existingScript.remove();
+  //     }
+  //     if (window.onTelegramAuth) {
+  //       delete window.onTelegramAuth;
+  //     }
+  //   };
+  // }, []);
+
+useEffect(() => {
+  if (document.getElementById("telegram-login-script")) return;
+
+  const script = document.createElement("script");
+  script.id = "telegram-login-script";
+  script.src = "https://telegram.org/js/telegram-widget.js?22";
+  script.async = true;
+  script.setAttribute("data-telegram-login", "samplebot"); // your bot username (without @)
+  script.setAttribute("data-size", "large");
+  script.setAttribute("data-auth-url", "https://ecommersedis.onrender.com/register");
+  script.setAttribute("data-request-access", "write");
+  document.getElementById("telegram-login-widget").appendChild(script);
+
+  window.onTelegramAuth = (user) => {
+    console.log("Telegram user:", user);
+    handleTelegramAuthSuccess(user);
+  };
+
+  return () => {
+    const el = document.getElementById("telegram-login-script");
+    if (el) el.remove();
+    delete window.onTelegramAuth;
+  };
+}, []);
+
+
 
   const handleTelegramAuthSuccess = async (telegramUser) => {
     setIsLoading(true);
