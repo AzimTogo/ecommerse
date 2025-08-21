@@ -32,9 +32,9 @@ const Register = () => {
     <script
       async
       src="https://telegram.org/js/telegram-widget.js?22"
-      data-telegram-login="YOUR_BOT_USERNAME"
+      data-telegram-login="samplebot"
       data-size="large"
-      data-onauth="onTelegramAuth(user)"
+      data-auth-url="https://ecommersedis.onrender.com/register"
       data-request-access="write"
     ></script>;
 
@@ -188,8 +188,8 @@ const Register = () => {
   };
 
   const handleTelegramLogin = () => {
-    const botId = "6412343716";
-    const botUsername = "SignUp_MarsBot";
+    const botId = "547043436";
+    const botUsername = "azimjonqahramonov_bot";
     const origin = encodeURIComponent(window.location.origin);
 
     const telegramAuthUrl = `https://oauth.telegram.org/auth?bot_id=${botId}&origin=${origin}&return_to=${origin}/auth/telegram/callback&request_access=write`;
